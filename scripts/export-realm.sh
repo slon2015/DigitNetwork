@@ -1,0 +1,1 @@
+docker-compose exec keycloak bash -c /commands/docker-export-command.sh

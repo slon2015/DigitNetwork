@@ -1,0 +1,24 @@
+version: '3.4'
+
+services:
+  socnetwork:
+    image: socnetwork
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      KEYCLOAK_AUTHSERVERURL: http://localhost:8081/auth
+  keycloak:
+    image: quay.io/keycloak/keycloak:15.0.2
+    ports:
+      - "8081:8080"
+    environment:
+      - KEYCLOAK_USER=admin 
+      - KEYCLOAK_PASSWORD=admin
+      - DB_VENDOR=h2
+      - KEYCLOAK_IMPORT=/realms/my_realm.json
+    volumes:
+      - ./realms:/realms:rw
+      - "./scripts/docker-commands:/commands:ro"

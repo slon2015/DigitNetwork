@@ -1,0 +1,24 @@
+keycloak:
+  realm: my_realm
+  auth-server-url: http://127.0.0.1:8081/auth
+  ssl-required: external
+  resource: NetworkRestService
+  credentials:
+    secret: b21c9bbc-876c-429e-b5fb-024730b86416
+  use-resource-role-mappings: true
+  public-client: true
+app:
+  keycloak: ${keycloak.auth-server-url}
+  registrator:
+    clientId: NetworkRegistrator
+    secret: 7d3cf765-68fd-4faa-a52b-14df4bb4584e
+spring:
+  datasource:
+    url: jdbc:h2:file:./data/mydb
+    username: sa
+    password:
+    driverClassName: org.h2.Driver
+  h2:
+    console:
+      enabled: true
+  
