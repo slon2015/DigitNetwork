@@ -15,6 +15,9 @@ import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper
 import org.springframework.security.core.session.SessionRegistryImpl
 import org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy
 import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy
+import org.springframework.web.cors.CorsConfiguration
+import org.springframework.web.cors.CorsConfigurationSource
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 
 
 @Configuration
@@ -81,6 +84,17 @@ class SecurityConfig(
             }
             .formLogin().disable()
             .httpBasic().disable()
+            .cors().and()
             .headers().frameOptions().disable()
+    }
+
+    @Bean
+    fun corsConfigurationSource(@Value("\${app.origins}") origins: List<String>): CorsConfigurationSource {
+        val configuration = CorsConfiguration()
+        configuration.allowedOrigins = origins
+        configuration.allowedMethods = listOf("GET", "POST", "HEAD", "PUT")
+        val source = UrlBasedCorsConfigurationSource()
+        source.registerCorsConfiguration("/**", configuration)
+        return source
     }
 }
