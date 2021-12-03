@@ -8,7 +8,7 @@ RUN mvn compile package
 
 FROM adoptopenjdk/openjdk11:alpine-jre
 ENV ARTIFACT_NAME=soc-network-rest-0.0.1-SNAPSHOT.jar
-ENV APP_HOME=/usr/app/
+ENV APP_HOME=/usr/app
 
 WORKDIR $APP_HOME
 COPY --from=BUILD $APP_HOME/target/$ARTIFACT_NAME .
