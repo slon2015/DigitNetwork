@@ -18,6 +18,8 @@ import org.springframework.security.web.authentication.session.SessionAuthentica
 import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.CorsConfigurationSource
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
+import org.springframework.web.servlet.config.annotation.CorsRegistry
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 
 
 @Configuration
@@ -89,12 +91,14 @@ class SecurityConfig(
     }
 
     @Bean
-    fun corsConfigurationSource(@Value("\${app.origins}") origins: List<String>): CorsConfigurationSource {
-        val configuration = CorsConfiguration()
-        configuration.allowedOrigins = origins
-        configuration.allowedMethods = listOf("GET", "POST", "HEAD", "PUT")
-        val source = UrlBasedCorsConfigurationSource()
-        source.registerCorsConfiguration("/**", configuration)
-        return source
+    fun corsConfig(@Value("\${app.origins}") origins: List<String>): WebMvcConfigurer {
+        return object : WebMvcConfigurer {
+            override fun addCorsMappings(registry: CorsRegistry) {
+                registry.addMapping("/**")
+                    .allowedMethods("*")
+                    .allowedHeaders("*")
+                    .allowedOrigins(*origins.toTypedArray())
+            }
+        }
     }
 }
