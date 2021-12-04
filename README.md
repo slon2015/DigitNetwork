@@ -12,3 +12,11 @@
 
 http://localhost:8080/swagger-ui/
 
+## Запуск с keycloak хостом
+
+Для запуска с выделенным keycloak хостом нужно изменить docker-compose.yaml файл добавив туда хост следующим образом
+
+```
+environment:
+  KEYCLOAK_AUTHSERVERURL: http://yourhost:8081/auth
+```
